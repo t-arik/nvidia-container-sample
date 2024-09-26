@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple
+spec:
+  nodeSelector:
+    nvidia.com/gpu.present: "true"
+  runtimeClassName: nvidia
+  containers:
+    - name: simple
+      image: 0badawy/simple
+      resources:
+        limits:
+            nvidia.com/gpu: "1"
