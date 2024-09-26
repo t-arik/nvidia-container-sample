@@ -6,9 +6,15 @@ spec:
   nodeSelector:
     nvidia.com/gpu.present: "true"
   runtimeClassName: nvidia
+  shareProcessNamespace: true   # Enable process namespace sharing, needed for cuda-checkpoint
   containers:
+    - name: cuda-checkpoint
+      image: ghcr.io/t-arik/cuda-checkpoint:v1.0.2
+      command: ["sh", "-c", "echo cuda-checkpoint started && sleep 3600"]
+      securityContext:
+        privileged: true
     - name: simple
-      image: 0badawy/simple
+      image: ghcr.io/t-arik/nvidia-container-sample:latest
       resources:
         limits:
-            nvidia.com/gpu: "1"
+          nvidia.com/gpu: "1"
